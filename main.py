@@ -54,11 +54,14 @@ palabras_clave = {
              "PLAYA ROJA", "GLADIOLO", "CLAVEL"],
     "HERA": ["IRON-MAN", "THOR", "JANE AUSTEN", "SHAKESPEARE", "BLANCO", "VIOLETA",
               "FUEGO", "PLANTA", "GRYFINDOR", "SERPIENTE CORNUDA", "FACEBOOK", "SNAPCHAT",
-              "ENSALADA", "HELADO", "VINO", "TÉ", "MONRE RORAIMA", "CLAVEL", "JACINTO"],  # Completar
+              "ENSALADA", "HELADO", "VINO", "TÉ", "MONTE RORAIMA", "CLAVEL", "JACINTO"],  # Completar
     "POSEIDÓN": ["FLASH", "IRON-MAN", "ASIMOV", "VERNE", "AZUL", "VERDE", "AGUA", 
                  "GRYFINDOR", "WAMPUS", "INSTAGRAM", "YOUTUBE", "TACOS", "PICADA", "GASEOSA",
                    "CERVEZA", "ISLA MARIETA", "CEBU", "JACINTO", "GLADIOLO"],  # Completar
-    "DEMETER": [],  # Completar
+    "DEMETER": ["CAPITÁN AMÉRICA", "WONDER WOMAN", "SHAKESPEARE", "GARCÍA MARQUEZ","MARRON"
+                "VERDE", "TIERRA", "MADERA", "HUFFLEPUFF", "WAMPUS", "PINTEREST", "BLOGGER", 
+                "ASADO", "TACOS", "JUGO", "AGUA", "BOSQUE DE BAMBU", "PARQUE", "PARQUE KEUKENHOF"
+                "DELFINIO", "ASTER"],  # Completar
     "ARES": [],  # Completar
     "ATENEA": [],  # Completar,
     "APOLO": [],  # Completar,
