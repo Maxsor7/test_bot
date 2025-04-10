@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
-import secrets_1
+import os
+TOKEN = os.getenv('DISCORD_TOKEN')  # ✅ Nueva forma segura
 
 intents = discord.Intents.default()
 intents.message_content = True
