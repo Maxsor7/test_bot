@@ -166,4 +166,3 @@ async def ayudatest(ctx):
 async def on_ready():
     print(f"Bot conectado como {bot.user}")
 
-bot.run(secrets_1.TOKEN)
