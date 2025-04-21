@@ -1,50 +1,21 @@
 import discord
 from discord.ext import commands
 import os
-TOKEN = os.getenv('DISCORD_TOKEN')  # ✅ Nueva forma segura
 
+TOKEN = os.getenv('DISCORD_TOKEN')
 intents = discord.Intents.default()
 intents.message_content = True
-
 bot = commands.Bot(command_prefix='%', intents=intents)
 
-# Variables para todos los dioses (puntos iniciales en 0)
+# Variables normalizadas (sin duplicados y con nombres consistentes)
 dioses = {
-    "ZEUS": 0,
-    "HERA": 0,
-    "POSEIDÓN": 0,
-    "DEMETER": 0,
-    "ARES": 0,
-    "ATENEA": 0,
-    "APOLO": 0,
-    "ARTEMISA": 0,
-    "HEFESTO": 0,
-    "AFRODITA": 0,
-    "HERMES": 0,
-    "DIONISIO": 0,
-    "HADES": 0,
-    "IRIS": 0,
-    "HYPNOS": 0,
-    "NÉMESIS": 0,
-    "HESTIA": 0,
-    "HERACLES": 0,
-    "HEBE": 0,
-    "HÉCATE": 0,
-    "PERSÉFONE": 0,
-    "ASCLEPIO": 0,
-    "NIKE": 0,
-    "TIQUE": 0,
-    "JANO": 0,
-    "EROS": 0,
-    "EOLO": 0,
-    "TÁNATOS": 0,
-    "FOBOS": 0,
-    "DEIMOS": 0,
-    "HIGIA": 0,
-    "HARMONÍA": 0,
-    "ERIS": 0,
-    "HEMERA": 0,
-    "NIX": 0
+    "ZEUS": 0, "HERA": 0, "POSEIDÓN": 0, "DEMÉTER": 0, "ARES": 0,
+    "ATENEA": 0, "APOLO": 0, "ARTEMISA": 0, "HEFESTO": 0, "AFRODITA": 0,
+    "HERMES": 0, "DIONISIO": 0, "HADES": 0, "IRIS": 0, "HYPNOS": 0,
+    "NÉMESIS": 0, "HESTIA": 0, "HERACLES": 0, "HEBE": 0, "HÉCATE": 0,
+    "PERSÉFONE": 0, "ASCLEPIO": 0, "NIKE": 0, "TIQUE": 0, "JANO": 0,
+    "EROS": 0, "EOLO": 0, "TÁNATOS": 0, "FOBOS": 0, "DEIMOS": 0,
+    "HIGIA": 0, "HARMONÍA": 0, "ERIS": 0, "HEMERA": 0, "NIX": 0
 }
 
 # Palabras clave para cada dios (completar las que faltan)
@@ -104,42 +75,49 @@ descripciones = {
 
 @bot.command()
 async def test(ctx, *, respuestas: str):
-    # Mensaje inicial con mención
-    await ctx.send(f"{ctx.author.mention} 🔍 Analizando tus respuestas...")
-
-    # Reiniciar puntos (conserva tu lógica)
+    # Reiniciar contadores
     for dios in dioses:
         dioses[dios] = 0
     
-    # Procesar respuestas (igual que antes)
-    palabras_usuario = [p.upper().strip() for p in respuestas.split(',')]
+    # Procesar respuestas
+    respuestas_procesadas = [p.upper().strip() for p in respuestas.split(',')]
     
-    # Contar puntos (usando tu diccionario palabras_clave)
-    for palabra in palabras_usuario:
+    # Verificar pronombres masculinos
+    pronombres_masculinos = {"ÉL", "EL", "ELLOS", "LOS"}
+    if any(pron in respuestas_procesadas for pron in pronombres_masculinos):
+        dioses["ARTEMISA"] = 0  # Resetear Artemisa si hay pronombres masculinos
+    
+    # Contar puntos
+    for palabra in respuestas_procesadas:
         for dios, palabras in palabras_clave.items():
             if palabra in palabras:
                 dioses[dios] += 1
     
     # Ordenar resultados
-    resultados_ordenados = sorted(dioses.items(), key=lambda x: x[1], reverse=True)
+    resultados = sorted(dioses.items(), key=lambda x: x[1], reverse=True)
+    top3 = resultados[:3]
     
-    # Crear Embed (conserva tu estilo)
+    # Bonus para Hermes si top3 está empatado
+    if len(top3) > 1 and (top3[0][1] - top3[1][1] <= 2):
+        dioses["HERMES"] += 2
+        resultados = sorted(dioses.items(), key=lambda x: x[1], reverse=True)
+        top3 = resultados[:3]
+    
+    # Crear embed de resultados
     embed = discord.Embed(
         title="🏛️ Resultados del Test de DemigodsArg 🏛️",
         description=f"**Usuario:** {ctx.author.mention}",
         color=discord.Color.gold()
     )
     
-    # Top 3 dioses
-    for i, (dios, puntos) in enumerate(resultados_ordenados[:3], 1):
+    for i, (dios, puntos) in enumerate(top3, 1):
         embed.add_field(
             name=f"{i}. {dios}",
             value=f"Puntos: {puntos}",
             inline=False
         )
     
-    # Dios principal (con mención en el valor)
-    dios_principal = resultados_ordenados[0][0]
+    dios_principal = top3[0][0]
     embed.add_field(
         name="¡Tu parentesco divino!",
         value=f"**{ctx.author.mention} es hijo de {dios_principal}**\n\n{descripciones.get(dios_principal, '')}",
